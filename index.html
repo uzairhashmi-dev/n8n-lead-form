@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Request a Quote</title>
+<style>
+  :root { color-scheme: light; --bg:#f4f6f9; --card:#fff; --ink:#1b2430; --muted:#5a6676;
+          --line:#cfd6e0; --accent:#1f5eff; --err:#c62828; --ok:#1b7f3b; }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin:0; padding:32px 16px; background:var(--bg); color:var(--ink);
+         font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; line-height:1.5; }
+  form { max-width:600px; margin:0 auto; background:var(--card); border:1px solid var(--line);
+         border-radius:10px; padding:32px; }
+  h1 { font-size:1.45rem; margin:0 0 4px; }
+  .sub { margin:0 0 4px; color:var(--muted); }
+  .legend { margin:0 0 8px; font-size:.85rem; color:var(--muted); }
+  .row { display:grid; grid-template-columns:1fr 1fr; gap:0 16px; }
+  .row > .field { min-width:0; }
+  @media (max-width:560px) {
+    body { padding:16px 12px; }
+    .row { grid-template-columns:1fr; }
+    form { padding:20px 16px; }
+  }
+  .field { margin-top:16px; }
+  label { display:block; font-size:.9rem; font-weight:600; margin-bottom:6px; }
+  label .req { color:var(--err); margin-left:2px; }
+  input, select, textarea { width:100%; min-height:44px; padding:10px 12px; font:inherit; font-size:1rem; color:var(--ink);
+         background:#fff; border:1px solid var(--line); border-radius:6px; }
+  ::placeholder { color:#6f7b8c; }
+  input:focus, select:focus, textarea:focus, button:focus-visible { outline:2px solid var(--accent); outline-offset:1px; border-color:var(--accent); }
+  [aria-invalid="true"] { border-color:var(--err); }
+  .hint { font-size:.8rem; color:var(--muted); margin-top:4px; }
+  .error { font-size:.8rem; color:var(--err); margin-top:4px; min-height:1.1em; overflow-wrap:anywhere; }
+  textarea { min-height:120px; resize:vertical; }
+  .count { text-align:right; }
+  button { margin-top:24px; width:100%; min-height:48px; padding:12px; font:inherit; font-weight:600; color:#fff;
+           background:var(--accent); border:0; border-radius:6px; cursor:pointer; }
+  button:disabled { opacity:.6; cursor:not-allowed; }
+  #status { margin-top:14px; font-size:.9rem; min-height:1.2em; padding:0; border-radius:6px; }
+  #status.bad, #status.good { padding:10px 12px; }
+  #status.bad { color:var(--err); background:#fdecec; border:1px solid #f3c1c1; }
+  #status.good { color:var(--ok); background:#e9f6ee; border:1px solid #b9e0c6; }
+  /* Honeypot: hidden from people, visible to simple bots */
+  .hp { position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden; }
+</style>
+</head>
+<body>
+<!-- Webhook URL: n8n PRODUCTION URL (/webhook/...). Works only while the n8n workflow is published. -->
+<form id="leadForm" method="POST" action="https://uzair33tt.app.n8n.cloud/webhook/beef8b7b-7314-46c6-82d7-ca734d50df71" novalidate>
+  <h1>Request a quote</h1>
+  <p class="sub">Tell us about your project and our sales team will reply shortly.</p>
+  <p class="legend"><span style="color:var(--err)">*</span> Required field</p>
+
+  <div class="row">
+    <div class="field">
+      <label for="first_name">First name<span class="req" aria-hidden="true">*</span></label>
+      <input id="first_name" name="first_name" type="text" placeholder="e.g. Ali" autocomplete="given-name" autocapitalize="words" maxlength="50" required aria-describedby="first_name_err">
+      <div class="error" id="first_name_err" role="alert"></div>
+    </div>
+    <div class="field">
+      <label for="last_name">Last name<span class="req" aria-hidden="true">*</span></label>
+      <input id="last_name" name="last_name" type="text" placeholder="e.g. Khan" autocomplete="family-name" autocapitalize="words" maxlength="50" required aria-describedby="last_name_err">
+      <div class="error" id="last_name_err" role="alert"></div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="email">Work email<span class="req" aria-hidden="true">*</span></label>
+    <input id="email" name="email" type="email" inputmode="email" placeholder="ali.khan@abc.com" autocomplete="email" autocapitalize="none" spellcheck="false" maxlength="254" required aria-describedby="email_err">
+    <div class="error" id="email_err" role="alert"></div>
+  </div>
+
+  <div class="field">
+    <label for="phone">Phone<span class="req" aria-hidden="true">*</span></label>
+    <input id="phone" name="phone" type="tel" placeholder="+92 300 1234567" autocomplete="tel" maxlength="20" required aria-describedby="phone_hint phone_err">
+    <div class="hint" id="phone_hint">Include country code. 10 to 15 digits.</div>
+    <div class="error" id="phone_err" role="alert"></div>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label for="company">Company name<span class="req" aria-hidden="true">*</span></label>
+      <input id="company" name="company" type="text" placeholder="ABC Technologies" autocomplete="organization" maxlength="100" required aria-describedby="company_err">
+      <div class="error" id="company_err" role="alert"></div>
+    </div>
+    <div class="field">
+      <label for="company_domain">Company domain<span class="req" aria-hidden="true">*</span></label>
+      <input id="company_domain" name="company_domain" type="text" inputmode="url" placeholder="abc.com" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="253" required aria-describedby="company_domain_hint company_domain_err">
+      <div class="hint" id="company_domain_hint">Without http:// or www.</div>
+      <div class="error" id="company_domain_err" role="alert"></div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="requirement">Project requirement<span class="req" aria-hidden="true">*</span></label>
+    <textarea id="requirement" name="requirement" maxlength="1000" placeholder="Describe what you need, your timeline and any important details." required aria-describedby="requirement_count requirement_err"></textarea>
+    <div class="hint count" id="requirement_count"><span id="count">0</span> / 1000 (minimum 20)</div>
+    <div class="error" id="requirement_err" role="alert"></div>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label for="budget">Budget (USD)<span class="req" aria-hidden="true">*</span></label>
+      <select id="budget" name="budget" required aria-describedby="budget_err">
+        <option value="">Select a range</option>
+        <option value="under_1000">Under 1,000</option>
+        <option value="1000_5000">1,000 to 5,000</option>
+        <option value="5000_20000">5,000 to 20,000</option>
+        <option value="over_20000">Over 20,000</option>
+      </select>
+      <div class="error" id="budget_err" role="alert"></div>
+    </div>
+    <div class="field">
+      <label for="source">How did you find us?<span class="req" aria-hidden="true">*</span></label>
+      <select id="source" name="source" required aria-describedby="source_err">
+        <option value="">Select one</option>
+        <option value="website">Website</option>
+        <option value="linkedin">LinkedIn</option>
+        <option value="referral">Referral</option>
+        <option value="other">Other</option>
+      </select>
+      <div class="error" id="source_err" role="alert"></div>
+    </div>
+  </div>
+
+  <!-- Honeypot (no name attribute, so it is never sent to n8n) -->
+  <div class="hp" aria-hidden="true">
+    <label for="hp_field">Leave this field empty</label>
+    <input id="hp_field" type="text" tabindex="-1" autocomplete="off">
+  </div>
+
+  <button type="submit" id="submitBtn">Send request</button>
+  <div id="status" role="status" aria-live="polite"></div>
+</form>
+
+<script>
+(function () {
+  var form = document.getElementById('leadForm');
+  var btn = document.getElementById('submitBtn');
+  var status = document.getElementById('status');
+  var counter = document.getElementById('count');
+  var BTN_TEXT = 'Send request';
+  var TIMEOUT_MS = 15000;      // give up waiting after 15 seconds
+  var COOLDOWN_MS = 8000;      // after a successful send, block a second send for 8 seconds
+
+  var NAME = /^\p{L}[\p{L}\s'.\-]*$/u;
+  var COMPANY = /^[\p{L}\p{N}][\p{L}\p{N}\s&.,'()\/\-]*$/u;
+  var EMAIL = /^[A-Za-z0-9._%+\-]+@[A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)*\.[A-Za-z]{2,24}$/;
+  var DOMAIN = /^([a-z0-9]([a-z0-9\-]{0,61}[a-z0-9])?\.)+[a-z]{2,24}$/i;
+
+  var rules = {
+    first_name: function (v) { return v.length < 2 ? 'Enter your first name (at least 2 letters).' : !NAME.test(v) ? 'Use letters only (spaces, hyphen and apostrophe allowed).' : ''; },
+    last_name: function (v) { return v.length < 2 ? 'Enter your last name (at least 2 letters).' : !NAME.test(v) ? 'Use letters only (spaces, hyphen and apostrophe allowed).' : ''; },
+    email: function (v) { return !v ? 'Enter your work email.' : (!EMAIL.test(v) || v.indexOf('..') > -1) ? 'Enter a valid email, like name@company.com.' : ''; },
+    phone: function (v) {
+      if (!v) return 'Enter your phone number.';
+      if (!/^\+?[0-9\s\-()]+$/.test(v)) return 'Use digits, spaces, + - ( ) only.';
+      var d = v.replace(/\D/g, '').length;
+      return (d < 10 || d > 15) ? 'Phone number must have 10 to 15 digits.' : '';
+    },
+    company: function (v) { return v.length < 2 ? 'Enter your company name.' : !COMPANY.test(v) ? 'Company name has invalid characters.' : ''; },
+    company_domain: function (v) {
+      if (!v) return 'Enter your company domain.';
+      if (/^https?:\/\//i.test(v) || /[\/@\s]/.test(v)) return 'Enter the domain only, like abc.com (no http://, no spaces).';
+      return !DOMAIN.test(v) ? 'Enter a valid domain, like abc.com.' : '';
+    },
+    requirement: function (v) { return v.length < 20 ? 'Please write at least 20 characters so we can help you properly.' : ''; },
+    budget: function (v) { return !v ? 'Select a budget range.' : ''; },
+    source: function (v) { return !v ? 'Select how you found us.' : ''; }
+  };
+
+  function check(name) {
+    var el = form.elements[name];
+    var msg = rules[name](el.value.trim());
+    document.getElementById(name + '_err').textContent = msg;
+    if (msg) el.setAttribute('aria-invalid', 'true'); else el.removeAttribute('aria-invalid');
+    return msg === '';
+  }
+
+  function show(type, text) {
+    status.className = type;
+    status.textContent = text;
+    if (status.scrollIntoView) status.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }
+
+  function resetUi() {
+    Object.keys(rules).forEach(function (name) {
+      form.elements[name].removeAttribute('aria-invalid');
+      document.getElementById(name + '_err').textContent = '';
+    });
+    counter.textContent = '0';
+  }
+
+  Object.keys(rules).forEach(function (name) {
+    var el = form.elements[name];
+    el.addEventListener('blur', function () { check(name); });
+    el.addEventListener('input', function () { if (el.getAttribute('aria-invalid')) check(name); });
+  });
+
+  var req = document.getElementById('requirement');
+  req.addEventListener('input', function () { counter.textContent = req.value.length; });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (btn.disabled) return;
+
+    var firstBad = null;
+    Object.keys(rules).forEach(function (name) {
+      if (!check(name) && !firstBad) firstBad = form.elements[name];
+    });
+    if (firstBad) { firstBad.focus(); show('bad', 'Please fix the highlighted fields.'); return; }
+
+    var endpoint = form.getAttribute('action') || '';
+    if (!endpoint || endpoint.indexOf('PASTE_N8N') === 0) {
+      show('bad', 'Form is valid, but the n8n webhook URL is not set yet.');
+      return;
+    }
+
+    // Spam bots fill hidden fields. Pretend success, send nothing.
+    if (document.getElementById('hp_field').value) {
+      form.reset(); resetUi(); show('good', 'Thank you. Your request has been received.');
+      return;
+    }
+
+    // Same field names and same urlencoded format as a normal form POST,
+    // so n8n still receives everything under body.*
+    var data = new URLSearchParams();
+    Object.keys(rules).forEach(function (name) {
+      data.append(name, form.elements[name].value.trim());
+    });
+
+    btn.disabled = true; btn.textContent = 'Sending...';
+    show('', '');
+
+    var ctrl = new AbortController();
+    var timer = setTimeout(function () { ctrl.abort(); }, TIMEOUT_MS);
+    var sent = false;
+
+    fetch(endpoint, { method: 'POST', body: data, signal: ctrl.signal })
+      .then(function (res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        sent = true;
+        form.reset(); resetUi();
+        show('good', 'Thank you. Your request has been received and our sales team will reply by email shortly.');
+      })
+      .catch(function (err) {
+        console.error('Lead form submit failed:', err);
+        var msg = err && err.name === 'AbortError'
+          ? 'The request took too long. Please try again.'
+          : 'We could not send your request. Check your connection and try again. Your details are still in the form.';
+        show('bad', msg);
+      })
+      .finally(function () {
+        clearTimeout(timer);
+        if (sent) {
+          btn.textContent = 'Sent';
+          setTimeout(function () { btn.disabled = false; btn.textContent = BTN_TEXT; }, COOLDOWN_MS);
+        } else {
+          btn.disabled = false; btn.textContent = BTN_TEXT;
+        }
+      });
+  });
+})();
+</script>
+</body>
+</html>
